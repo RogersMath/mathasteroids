@@ -1,0 +1,304 @@
+/* Base Styles */
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Hide scrollbars, important for phone-first */
+    background-color: black;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Full viewport height */
+}
+
+/* Gradient for text and borders */
+.gradient-text {
+    background: linear-gradient(to right, #4CAF50, #00BCD4, #9C27B0); /* Light green, cyan, purple */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent; /* Fallback */
+}
+
+.gradient-border {
+    border-image: linear-gradient(to right, #4CAF50, #00BCD4, #9C27B0) 1;
+    border-style: solid;
+    border-width: 2px; /* Adjust as needed */
+}
+
+/* Main Game Container - Fixed size for phone-like feel */
+#game-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    background-color: black;
+    max-width: 500px; /* Max width for phone-like feel on desktop */
+    margin: 0 auto; /* Center on wider screens */
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); /* Subtle glow effect */
+    border-radius: 10px; /* Slightly rounded corners */
+    overflow: hidden; /* Important for canvas overflow */
+    position: relative; /* For absolute positioning of menus */
+}
+
+/* Container for actual gameplay elements (gets hidden/shown) */
+#gameplay-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Takes available space within game-container above navbar */
+    background-color: black;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Game Stats */
+#game-stats {
+    background-color: #0d0d0d;
+    padding: 10px;
+    font-size: clamp(0.8em, 2vw, 1.2em); /* Responsive font size */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    border-bottom: 1px solid #333;
+}
+#game-stats div {
+    margin: 0 5px;
+    white-space: nowrap; /* Prevent stats from wrapping within their div */
+}
+
+/* Three.js Canvas */
+#game-display {
+    flex-grow: 1; /* Takes available space */
+    width: 100%;
+    min-height: 200px; /* Minimum height to ensure visibility */
+    background-color: black;
+    position: relative; /* For absolutely positioning explosion */
+}
+#game-display canvas {
+    display: block; /* Remove extra space below canvas */
+    width: 100%;
+    height: 100%;
+}
+
+/* Math Problem */
+#math-problem {
+    padding: 15px;
+    font-size: clamp(2em, 8vw, 3em); /* Large, responsive font for problems */
+    font-weight: bold;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    background-color: #0d0d0d;
+    height: 1.5em; /* Fixed height for problem display */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap; /* Keep problem on one line */
+}
+
+/* Input Keypad */
+#input-keypad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    gap: 8px;
+    padding: 10px;
+    background-color: #1a1a1a;
+    border-bottom: 1px solid #333;
+}
+.keypad-button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 15px 0;
+    font-size: clamp(1.2em, 5vw, 1.8em);
+    border-radius: 8px;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.2s, transform 0.1s;
+}
+.keypad-button:active {
+    background-color: #333;
+    transform: scale(0.98);
+}
+#enter-button {
+    grid-column: span 2; /* Make ENTER button span two columns */
+    font-weight: bold;
+    font-size: clamp(1.5em, 6vw, 2em);
+    background-color: #004d00; /* Darker green */
+}
+#enter-button.gradient-border {
+     border-image: linear-gradient(to right, #00ff00, #00dddd, #aa00ff) 1; /* Brighter gradient for enter */
+}
+#enter-button:active {
+    background-color: #006600;
+}
+
+/* Navbar */
+#navbar {
+    display: flex;
+    justify-content: space-around;
+    background-color: #0d0d0d;
+    padding: 0; /* Remove padding */
+    border-top: 1px solid #333;
+    height: 50px; /* Fixed height */
+    box-sizing: border-box;
+    width: 100%; /* Ensure it spans the full width of parent */
+}
+.nav-button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 0; /* Adjust padding */
+    font-size: clamp(0.9em, 4vw, 1.2em);
+    border-radius: 0; /* Remove border-radius for flush look */
+    cursor: pointer;
+    outline: none;
+    flex-grow: 1; /* Ensure equal width */
+    margin: 0; /* Remove margins to make them butt up against each other */
+    transition: background-color 0.2s, transform 0.1s;
+}
+.nav-button.active {
+    background-color: #333;
+    border-image: linear-gradient(to right, #4CAF50, #00BCD4, #9C27B0) 1;
+    border-style: solid;
+    border-width: 2px;
+    color: lightblue; /* Active button text color */
+}
+.nav-button:active {
+    background-color: #333;
+    transform: scale(0.98);
+}
+
+/* Upgrades and Settings Menus */
+/* These overlay the gameplay-content, but NOT the navbar */
+#upgrades-menu, #settings-menu {
+    position: absolute; /* Positioned relative to #game-container */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 50px); /* Account for navbar height */
+    background-color: rgba(0, 0, 0, 0.95); /* Semi-transparent overlay */
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto; /* Scroll for long lists */
+    z-index: 100; /* Above game elements */
+    display: flex;
+    flex-direction: column;
+}
+#upgrades-menu h2, #settings-menu h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: clamp(1.5em, 6vw, 2.5em);
+}
+.upgrade-item, .settings-item {
+    background-color: #1a1a1a;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: clamp(0.9em, 3.5vw, 1.1em);
+    line-height: 1.4;
+    border: 1px solid #333;
+}
+.upgrade-item .info {
+    flex-grow: 1;
+    text-align: left;
+}
+.upgrade-item button, .settings-item button {
+    background-color: #004d00;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: clamp(0.8em, 3vw, 1em);
+}
+.upgrade-item button:hover, .settings-item button:hover {
+    background-color: #006600;
+}
+.upgrade-item button:disabled {
+    background-color: #333;
+    cursor: not-allowed;
+}
+
+/* Solar Harvesting Menu (Simplified) */
+#solar-harvesting-menu {
+    margin-top: 20px;
+    border-top: 1px solid #333;
+    padding-top: 20px;
+    text-align: center;
+}
+#solar-harvesting-menu h3 {
+    margin-bottom: 15px;
+    font-size: clamp(1.2em, 5vw, 1.8em);
+}
+#solar-harvesting-toggle-container {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+#solar-harvesting-toggle {
+    background-color: #0d0d0d;
+    color: white;
+    border: 1px solid #333;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: clamp(0.9em, 4vw, 1.2em);
+    transition: background-color 0.2s, border-color 0.2s;
+}
+#solar-harvesting-toggle.active {
+    background-color: #003300;
+    border-color: #00ff00;
+}
+#solar-harvesting-toggle:hover {
+    background-color: #1a1a1a;
+}
+#solar-harvesting-status {
+    margin-top: 15px;
+    font-size: clamp(0.9em, 3.5vw, 1.1em);
+}
+
+
+/* Game Over Screen */
+#game-over-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Covers entire game-container, including navbar */
+    background-color: rgba(0, 0, 0, 0.98); /* More opaque */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 101;
+    text-align: center;
+}
+#game-over-screen h1 {
+    font-size: clamp(2.5em, 10vw, 4em);
+    color: #ff0000;
+    margin-bottom: 20px;
+}
+#game-over-screen p {
+    font-size: clamp(1.2em, 5vw, 2em);
+    margin-bottom: 30px;
+}
+#game-over-screen button {
+    background-color: #004d00;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: clamp(1.2em, 5vw, 1.8em);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+#game-over-screen button:hover {
+    background-color: #006600;
+}
