@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Math Asteroids</title>
+    <!-- CSS for the current theme -->
+    <link rel="stylesheet" href="data/gameData.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Main gameplay content - this entire div gets hidden/shown -->
+        <div id="gameplay-content">
+            <!-- Game Stats Section -->
+            <div id="game-stats">
+                <div id="rank-display">RANK: Scavenger</div>
+                <div id="credits-display">Credits: 0</div>
+                <div id="shields-display">Shields: 5%</div>
+                <div id="damage-display">Total Damage: 0</div>
+                <div id="field-display">Field: Idle</div>
+                <div id="fuel-display">Fuel: 100%</div>
+            </div>
+
+            <!-- Three.js Game Display -->
+            <div id="game-display">
+                <!-- Three.js canvas will be appended here by JS -->
+            </div>
+
+            <!-- Math Problem Section -->
+            <div id="math-problem">
+                <span id="problem-text" class="gradient-text">LOADING...</span>
+            </div>
+
+            <!-- Input Keypad Section -->
+            <div id="input-keypad">
+                <button class="keypad-button" data-value="1">1</button>
+                <button class="keypad-button" data-value="2">2</button>
+                <button class="keypad-button" data-value="3">3</button>
+                <button class="keypad-button" data-value="y^x">y^x</button>
+                <button class="keypad-button" data-value="4">4</button>
+                <button class="keypad-button" data-value="5">5</button>
+                <button class="keypad-button" data-value="6">6</button>
+                <button class="keypad-button" data-value="pi">π</button>
+                <button class="keypad-button" data-value="7">7</button>
+                <button class="keypad-button" data-value="8">8</button>
+                <button class="keypad-button" data-value="9">9</button>
+                <button class="keypad-button" data-value="/">/</button>
+                <button class="keypad-button" data-value=".">.</button>
+                <button class="keypad-button" data-value="0">0</button>
+                <button class="keypad-button" data-value="-">-</button>
+                <button class="keypad-button" data-value="C">C</button>
+                <button id="enter-button" class="gradient-border">ENTER</button>
+            </div>
+        </div>
+
+        <!-- Overlay Menus (initially hidden) -->
+        <div id="upgrades-menu" class="hidden">
+            <h2 class="gradient-text">UPGRADES</h2>
+            <div id="solar-harvesting-menu">
+                <h3 class="gradient-text">Solar Harvesting</h3>
+                <p id="solar-harvesting-status">Status: Idle | Fuel: 100%</p>
+                <div id="solar-harvesting-toggle-container">
+                    <button id="solar-harvesting-toggle">Activate Harvesting</button>
+                </div>
+            </div>
+            <div id="upgrade-list">
+                <!-- Upgrades will be dynamically loaded here -->
+            </div>
+        </div>
+
+        <div id="settings-menu" class="hidden">
+            <h2 class="gradient-text">SETTINGS</h2>
+            <div class="settings-item">
+                <span>Save Game Slot 1</span>
+                <div>
+                    <button onclick="saveGame(1)">SAVE</button>
+                    <button onclick="loadGame(1)">LOAD</button>
+                </div>
+            </div>
+            <div class="settings-item">
+                <span>Save Game Slot 2</span>
+                <div>
+                    <button onclick="saveGame(2)">SAVE</button>
+                    <button onclick="loadGame(2)">LOAD</button>
+                </div>
+            </div>
+            <div class="settings-item">
+                <span>Save Game Slot 3</span>
+                <div>
+                    <button onclick="saveGame(3)">SAVE</button>
+                    <button onclick="loadGame(3)">LOAD</button>
+                </div>
+            </div>
+            <div class="settings-item">
+                <span>Reset Current Game</span>
+                <button onclick="resetGame()">RESET</button>
+            </div>
+        </div>
+
+        <!-- Game Over Screen (initially hidden) -->
+        <div id="game-over-screen" class="hidden">
+            <h1 class="gradient-text">GAME OVER</h1>
+            <p>Your journey ends here, but your knowledge remains!</p>
+            <button onclick="resetGame()">Start New Game</button>
+        </div>
+
+        <!-- Navbar Section (always visible) -->
+        <div id="navbar">
+            <button class="nav-button active" id="nav-game">GAME</button>
+            <button class="nav-button" id="nav-upgrades">UPGRADES</button>
+            <button class="nav-button" id="nav-settings">SETTINGS</button>
+        </div>
+
+    </div>
+
+    <!-- Three.js CDN -->
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/three.min.js"></script>
+
+    <!-- Game Scripts -->
+    <script src="scripts/constants.js"></script>
+    <script src="data/gameData.js"></script> <!-- Includes game-specific data, e.g., upgrades and ranks -->
+    <script src="problems/problemGenerator.js"></script>
+    <script src="scripts/visualFX.js"></script>
+    <script src="scripts/ui.js"></script>
+    <script src="scripts/gameLogic.js"></script>
+    <script src="scripts/upgradeMenu.js"></script>
+    <script src="scripts/settings.js"></script>
+    <script src="scripts/utilities.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>
